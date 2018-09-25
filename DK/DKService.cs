@@ -93,7 +93,7 @@ namespace DK
                 //5、gzip 反解
                 if (response.ContentEncoding.ToLower().Contains("gzip"))
                 {
-                    myResponseStream = new GZipStream(myResponseStream, CompressionMode.Decompress);
+                    //myResponseStream = new GZipStream(myResponseStream, CompressionMode.Decompress);
                 }
                 else if (response.ContentEncoding.ToLower().Contains("deflate"))
                 {
@@ -203,7 +203,7 @@ namespace DK
 
 
             Console.WriteLine(retString);
-            return retString;
+            return retString; 
         }
 
     }
