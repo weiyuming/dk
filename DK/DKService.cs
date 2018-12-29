@@ -10,7 +10,7 @@ namespace DK
 {
     class DKService
     {
-        public String login(String userName,String password)
+        public String login(String userName, String password)
         {
             string retString = "错误";
             try
@@ -53,7 +53,7 @@ namespace DK
 
 
 
-        public String getToken(String qzId, String memberId,String userAgent)
+        public String getToken(String qzId, String memberId, String userAgent)
         {
             string retString = "错误";
             String token = "";
@@ -93,7 +93,7 @@ namespace DK
                 //5、gzip 反解
                 if (response.ContentEncoding.ToLower().Contains("gzip"))
                 {
-                    //myResponseStream = new GZipStream(myResponseStream, CompressionMode.Decompress);
+                    myResponseStream = new GZipStream(myResponseStream, CompressionMode.Decompress);
                 }
                 else if (response.ContentEncoding.ToLower().Contains("deflate"))
                 {
@@ -102,21 +102,21 @@ namespace DK
 
 
 
-                
+
                 StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.Default);
                 retString = myStreamReader.ReadToEnd();
                 myStreamReader.Close();
                 myResponseStream.Close();
 
                 //6; 暂时不进行json的解析，直接截取  不进行判断
-                String [] retStrings =retString.Split(',');
+                String[] retStrings = retString.Split(',');
                 String[] tokens = retStrings[1].Split(':');
                 token = tokens[1];
 
                 token = token.Replace("\"", "");
                 token = token.Replace("\\", "");
                 token = token.Replace("}", "");
-              
+
 
 
             }
@@ -132,7 +132,7 @@ namespace DK
 
 
 
-        public String requestDk(String toKen, String encryptedAttentance,String userAgent)
+        public String requestDk(String toKen, String encryptedAttentance, String userAgent)
         {
             string retString = "错误";
             try
@@ -203,7 +203,7 @@ namespace DK
 
 
             Console.WriteLine(retString);
-            return retString; 
+            return retString;
         }
 
     }
