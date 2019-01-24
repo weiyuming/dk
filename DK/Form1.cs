@@ -16,7 +16,7 @@ namespace DK
     public partial class form : Form
     {
 
-        List<User>  list = new List<User>();
+        List<User> list = new List<User>();
         String setMapDateTime = DateTime.Now.ToString("yyyy-MM-dd");
         int am = 8;
         int pm = 17;
@@ -83,7 +83,7 @@ namespace DK
             TimeSpan ts = DateTime.Parse(nowTime) - DateTime.Parse(setMapDateTime);//判读两个时间的间隔
             int isRstartTime = ts.Days;//如果相差不是0天，则认为应该重新生成时间了
 
-            if (isRstartTime!=0)
+            if (isRstartTime != 0)
             {
                 outputLog("时间相差1天，重新执行用户时间生成方法");
                 setTimeMap();
@@ -102,7 +102,7 @@ namespace DK
             //    {
             //        AutoRequest();
             //    }
-                
+
             //}
 
             //获取用户自定义时间
@@ -121,10 +121,10 @@ namespace DK
                 }
             }
 
-            
 
 
-            if (intHour == am || amHourList.Contains(intHour) )//控制上午的循环
+
+            if (intHour == am || amHourList.Contains(intHour))//控制上午的循环
             {
                 AutoRequest2(intMinute, amTimeMap, intHour);
             }
@@ -142,7 +142,7 @@ namespace DK
 
 
         //请求发送方法  type 1标示自动请求
-        private String request(User tempUser,String type)
+        private String request(User tempUser, String type)
         {
 
             int intHour = DateTime.Now.Hour;      //获取当前时间的小时部分
@@ -165,7 +165,7 @@ namespace DK
                 System.DateTime currentTime = new System.DateTime();
                 currentTime = System.DateTime.Now; //获取当前时间
                 String msg = currentTime + "  " + "请求发送失败请及时处理";
-                outputLog(msg,Color.Red,true);
+                outputLog(msg, Color.Red, true);
                 if ("1".Equals(tempUser.IsEmail) && tempUser.Email != null && !"".Equals(tempUser.Email.Trim()))
                 {
                     EmailHelper.sendMail(tempUser.Email, msg, "每日请求发送失败");
@@ -181,7 +181,7 @@ namespace DK
             }
             else
             {
-                outputLog(tempUser.UserName+"  请求发送成功！");
+                outputLog(tempUser.UserName + "  请求发送成功！");
                 if (intHour <= 9)//节省短信，控制只是早晨发短信
                 {
                     if ("1".Equals(tempUser.IsSMS) && tempUser.Mobile != null && !"".Equals(tempUser.Mobile.Trim()) && "1".Equals(type))
@@ -189,7 +189,7 @@ namespace DK
                         SMSHelper.sendSMSTrue(tempUser.Mobile.Trim());
                     }
                 }
-                
+
             }
 
 
@@ -211,7 +211,7 @@ namespace DK
                 if ("1".Equals(tempUser.IsAuto))//判断是否自动发送
                 {
                     outputLog("【自动】开始发送" + tempUser.UserName);
-                    request(tempUser,"1");
+                    request(tempUser, "1");
                 }
             }
         }
@@ -223,7 +223,7 @@ namespace DK
 
             if (timeMap != null && timeMap.Count > 0)
             {
-                
+
                 if (timeMap.ContainsValue(intMinute))//如果当前的分钟数有符合要求的，理论上应该只有一个符合要求
                 {
                     //双重循环获取时间相符的人 进行发送
@@ -238,7 +238,7 @@ namespace DK
                                 User tempUser = list[i];
                                 if ("1".Equals(tempUser.IsAuto) && (tempUser.UserName).Equals(key))//判断是否自动发送  并且当前人和map中当前时间需要发送的人相匹配
                                 {
-                                    if(
+                                    if (
                                            ("0".Equals(tempUser.IsTime) && intHour == am) //不是指定时间，当前和am相同
                                         || ("0".Equals(tempUser.IsTime) && intHour == pm)//不是指定时间，当前和pm相同
                                         || ("1".Equals(tempUser.IsTime) && intHour == tempUser.Am)//是指定时间，当前和指定am相同
@@ -262,19 +262,19 @@ namespace DK
                                         }
 
                                     }
-                                    
+
                                 }
                             }
                         }
 
-                        if(isStop)//如果发送过一次了，后续不执行
+                        if (isStop)//如果发送过一次了，后续不执行
                         {
                             break;
                         }
                     }
                 }
             }
-            
+
         }
 
 
@@ -292,19 +292,19 @@ namespace DK
                 list = XmlHelper.getUserListByXml();
             }
 
-            if (nameList == null || nameList.Count<=0)
+            if (nameList == null || nameList.Count <= 0)
             {
                 String error = "请选择要发送的人员，至少选择一个！";
                 outputLog(error);
                 MessageBox.Show(error);
                 return;
-                
+
             }
 
             if (nameList != null || nameList.Count > 0)
             {
                 int countTemp = 0;
-                for (int i = 0; i < nameList.Count;i++ )
+                for (int i = 0; i < nameList.Count; i++)
                 {
                     if ((nameList[i].ToString()).IndexOf("尉彧溟") >= 0)
                     {
@@ -312,7 +312,7 @@ namespace DK
                     }
                 }
 
-                if (countTemp>=2)
+                if (countTemp >= 2)
                 {
                     String error = "尉彧溟有两个地点，只能选择其中一个";
                     outputLog(error);
@@ -329,17 +329,17 @@ namespace DK
                 outputLog(error);
                 MessageBox.Show(error);
                 return;
-                
+
             }
             else
             {
                 TimerProc.Interval = 1;//设置初始值为0
                 TimerProc.Enabled = true;//启动定时任务
-                
-            }
-            
 
-            
+            }
+
+
+
         }
 
         ////被定时器调用
@@ -368,10 +368,10 @@ namespace DK
 
 
             timerStart.Interval = 45000;//定时任务间隔45秒
-            outputLog("【系统启动中】 设置主定时任务的时间间隔为" + timerStart.Interval+ "毫秒");
+            outputLog("【系统启动中】 设置主定时任务的时间间隔为" + timerStart.Interval + "毫秒");
 
             timerStart.Enabled = true;//启动定时任务
-            outputLog("【系统启动中】 设置主定时是否启动为" +timerStart.Enabled);
+            outputLog("【系统启动中】 设置主定时是否启动为" + timerStart.Enabled);
 
             list = XmlHelper.getUserListByXml();//初始化数据
             outputLog("【系统启动中】 初始化User.Xml 获得用户人数为" + list.Count);
@@ -387,14 +387,14 @@ namespace DK
             radioBtnYes.Checked = true;
             //延迟时间 默认为 47秒
             textBox1.Text = "47000";
-            outputLog("【系统启动中】 初始化手工发送延迟时间为" + textBox1.Text+ "毫秒");
+            outputLog("【系统启动中】 初始化手工发送延迟时间为" + textBox1.Text + "毫秒");
 
             //生成人员的时间
             setTimeMap();
             //设置起始时间，用于判断是否需要重新生成人员的时间
             setMapDateTime = DateTime.Now.ToString("yyyy-MM-dd");
             outputLog("【系统启动中】 设置日期为" + setMapDateTime);
-            
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -444,16 +444,27 @@ namespace DK
 
 
 
-            
 
-            String currentDate = "20171005";// 2008-09-04 获取当前日期并格式化
-            //currentDate = DateTime.Now.ToString("yyyyMMdd");// 2008-09-04 获取当前日期并格式化
-            bool isHolidayStr = DateHelper.IsHolidayByDateLocal(currentDate);
 
-            outputLog("当前日期为" + currentDate + "是否法定假日（true为节假日）：" + isHolidayStr);
+            //String currentDate = "20171005";// 2008-09-04 获取当前日期并格式化
+            ////currentDate = DateTime.Now.ToString("yyyyMMdd");// 2008-09-04 获取当前日期并格式化
+            //bool isHolidayStr = DateHelper.IsHolidayByDateLocal(currentDate);
 
-            //Boolean isHoliday = DateHelper.getWeek(currentDate);
-            //outputLog("当前日期为" + currentDate + "是否法定假日（true为节假日）：" + isHoliday);
+            //outputLog("当前日期为" + currentDate + "是否法定假日（true为节假日）：" + isHolidayStr);
+
+            ////Boolean isHoliday = DateHelper.getWeek(currentDate);
+            ////outputLog("当前日期为" + currentDate + "是否法定假日（true为节假日）：" + isHoliday);
+
+            CreateAutoCheckBoxs();
+            outputLog("【刷新配置】 重新获取自动发送人员列表");
+            CreateNoAutoCheckBoxs();
+            outputLog("【刷新配置】 重新获取手工发送人员列表");
+
+            //生成人员的时间
+            setTimeMap();
+            outputLog("【刷新配置】 重新生成人员的时间");
+
+
         }
 
 
@@ -463,9 +474,9 @@ namespace DK
         {
             int x = -70;
             int y = 0;
-            for (int i = 0; i < list.Count;i++ )
+            for (int i = 0; i < list.Count; i++)
             {
-                if (i%6==0)
+                if (i % 6 == 0)
                 {
                     x = -70;
                     y += 30;
@@ -478,7 +489,7 @@ namespace DK
                 chk.Size = new System.Drawing.Size(78, 16);//大小 
                 chk.Text = user.UserName;//内容 
                 groupBoxNoAuto.Controls.Add(chk);
-                
+
             }
         }
 
@@ -493,9 +504,9 @@ namespace DK
 
             for (int i = 0; i < list.Count; i++)
             {
-                
+
                 User user = list[i];
-                if("1".Equals(user.IsAuto))
+                if ("1".Equals(user.IsAuto))
                 {
                     if (coutn % 6 == 0)
                     {
@@ -519,12 +530,12 @@ namespace DK
         //日志记录
         private void outputLog(String msg)
         {
-            outputLog(msg,Color.Black,false);
+            outputLog(msg, Color.Black, false);
         }
 
 
         //日志记录
-        private void outputLog(String msg,Color color,Boolean isBold)
+        private void outputLog(String msg, Color color, Boolean isBold)
         {
 
 
@@ -541,7 +552,7 @@ namespace DK
                 this.richTextBoxLog.SelectionFont = new Font(Font, FontStyle.Bold);
             }
 
-            
+
 
             System.DateTime currentTime = new System.DateTime();
             currentTime = System.DateTime.Now; //获取当前时间
@@ -596,7 +607,7 @@ namespace DK
 
 
 
-                
+
         }
 
 
@@ -606,7 +617,7 @@ namespace DK
             amTimeMap = new Dictionary<string, int>();
             pmTimeMap = new Dictionary<string, int>();
             //list为人员列表
-            for (int i = 0; i < list.Count;i++ )
+            for (int i = 0; i < list.Count; i++)
             {
                 User tempUser = list[i];
 
@@ -622,7 +633,7 @@ namespace DK
 
                     if ("1".Equals(tempUser.IsTime))//是否启用自定义时间
                     {
-                        
+
                         //上午
                         amTemp = tempUser.Am;
                         amMinStartTemp = tempUser.AmMinStart;//开始分钟
@@ -660,14 +671,145 @@ namespace DK
                     outputLog("【初始化时间】 " + tempUser.UserName + " 下午时间为：" + pmTemp + "点" + pmTimeTemp + "分");
                 }
 
-                
-                
+
+
             }
 
         }
 
 
 
+
+
+
+        #region
+        ////创建NotifyIcon对象 
+        //NotifyIcon notifyicon = new NotifyIcon();
+        ////创建托盘图标对象 
+        //Icon ico = new Icon("q4.ico");
+        ////创建托盘菜单对象 
+        //ContextMenu notifyContextMenu = new ContextMenu();
+        #endregion
+
+
+        #region 托盘提示
+        //private void Form1_Load(object sender, EventArgs e)
+        //{
+
+        //}
+        #endregion
+
+        #region 隐藏任务栏图标、显示托盘图标
+        //private void Form1_SizeChanged(object sender, EventArgs e)
+        //{
+        //    //判断是否选择的是最小化按钮 
+        //    if (WindowState == FormWindowState.Minimized)
+        //    {
+        //        //托盘显示图标等于托盘图标对象 
+        //        //注意notifyIcon1是控件的名字而不是对象的名字 
+        //        notifyIcon1.Icon = ico;
+        //        //隐藏任务栏区图标 
+        //        this.ShowInTaskbar = false;
+        //        //图标显示在托盘区 
+        //        notifyicon.Visible = true;
+        //    }
+        //}
+        #endregion
+
+        #region 还原窗体
+        //private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        //{
+        //    //判断是否已经最小化于托盘 
+        //    if (WindowState == FormWindowState.Minimized)
+        //    {
+        //        //还原窗体显示 
+        //        WindowState = FormWindowState.Normal;
+        //        //激活窗体并给予它焦点 
+        //        this.Activate();
+        //        //任务栏区显示图标 
+        //        this.ShowInTaskbar = true;
+        //        //托盘区图标隐藏 
+        //        notifyicon.Visible = false;
+
+
+        //        //让文本框获取焦点，不过注释这行也能达到效果
+        //        this.richTextBoxLog.Focus();
+        //        //设置光标的位置到文本尾   
+        //        this.richTextBoxLog.Select(this.richTextBoxLog.TextLength, 0);
+        //        //滚动到控件光标处   
+        //        this.richTextBoxLog.ScrollToCaret();
+        //    }
+        //}
+        #endregion
+
+
+        //关闭窗体前执行
+        //private void form_FormClosing(object sender, FormClosingEventArgs e)
+        //{
+        //    exitpassword form2 =new exitpassword();
+        //    //form.FormBorderStyle = FormBorderStyle.None; 
+        //    //隐藏子窗体边框（去除最小花，最大化，关闭等按钮）
+        //   // form.TopLevel =false; 
+        //    //指示子窗体非顶级窗体
+        //    //this.panel1.Controls.Add(form);//将子窗体载入panel
+
+        //    //form2.MdiParent = this;
+        //    //form2.StartPosition = FormStartPosition.CenterScreen;
+
+
+        //    form2.ShowDialog();
+        //    e.Cancel = true;
+
+        //    //方法二：指定父容器实现
+        //    //Form2 
+        //    //form=new 
+        //    //Form2();
+        //    //form.MdiParent=this;//指定当前窗体为顶级Mdi窗体
+        //    //form.Parent=this.Panel1;//指定子窗体的父容器为
+        //    //Frm.FormBorderStyle = FormBorderStyle.None;//隐藏子窗体边框，当然也可以在子窗体的窗体加载事件中实现
+        //    //panelform.Show();
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //以下是新的写法
 
 
 
@@ -684,7 +826,7 @@ namespace DK
         #region 托盘提示
         //private void Form1_Load(object sender, EventArgs e)
         //{
-            
+
         //}
         #endregion
 
@@ -707,6 +849,12 @@ namespace DK
 
         #region 还原窗体
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            huanyuan();
+        }
+
+
+        private void huanyuan()
         {
             //判断是否已经最小化于托盘 
             if (WindowState == FormWindowState.Minimized)
@@ -735,28 +883,40 @@ namespace DK
         //关闭窗体前执行
         private void form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            exitpassword form2 =new exitpassword();
+            //exitpassword form2 = new exitpassword();
             //form.FormBorderStyle = FormBorderStyle.None; 
             //隐藏子窗体边框（去除最小花，最大化，关闭等按钮）
-           // form.TopLevel =false; 
+            // form.TopLevel =false; 
             //指示子窗体非顶级窗体
             //this.panel1.Controls.Add(form);//将子窗体载入panel
 
             //form2.MdiParent = this;
             //form2.StartPosition = FormStartPosition.CenterScreen;
 
-
-            form2.ShowDialog();
             e.Cancel = true;
+            //form2.ShowDialog();
 
-            //方法二：指定父容器实现
-            //Form2 
-            //form=new 
-            //Form2();
-            //form.MdiParent=this;//指定当前窗体为顶级Mdi窗体
-            //form.Parent=this.Panel1;//指定子窗体的父容器为
-            //Frm.FormBorderStyle = FormBorderStyle.None;//隐藏子窗体边框，当然也可以在子窗体的窗体加载事件中实现
-            //panelform.Show();
+            this.WindowState = FormWindowState.Minimized;
+
+        }
+
+        private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            huanyuan();
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("是否确认退出程序？退出后自动请求功能将失效", "退出", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                // 关闭所有的线程
+                this.Dispose();
+                this.Close();
+
+
+
+
+            }
         }
     }
 }
