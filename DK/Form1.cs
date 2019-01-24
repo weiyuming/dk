@@ -455,8 +455,14 @@ namespace DK
             ////Boolean isHoliday = DateHelper.getWeek(currentDate);
             ////outputLog("当前日期为" + currentDate + "是否法定假日（true为节假日）：" + isHoliday);
 
+
+            list = XmlHelper.getUserListByXml();//初始化数据
+            outputLog("【刷新配置】 重新加载User.Xml 获得用户人数为" + list.Count);
+
             CreateAutoCheckBoxs();
             outputLog("【刷新配置】 重新获取自动发送人员列表");
+
+
             CreateNoAutoCheckBoxs();
             outputLog("【刷新配置】 重新获取手工发送人员列表");
 
@@ -470,10 +476,16 @@ namespace DK
 
 
 
+        // 非自动发送部分
         private void CreateNoAutoCheckBoxs()
         {
             int x = -70;
             int y = 0;
+
+
+            // 清空一次原有数据，以便重新加载
+            groupBoxNoAuto.Controls.Clear();
+
             for (int i = 0; i < list.Count; i++)
             {
                 if (i % 6 == 0)
@@ -501,6 +513,9 @@ namespace DK
             int y = 0;
 
             int coutn = 0;
+
+            // 清空一次原有数据，以便重新加载
+            groupBoxAuto.Controls.Clear();
 
             for (int i = 0; i < list.Count; i++)
             {
