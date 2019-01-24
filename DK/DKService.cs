@@ -120,9 +120,9 @@ namespace DK
 
 
             }
-            catch
+            catch(Exception e)
             {
-                return retString;
+                return retString + e;
             }
 
 
